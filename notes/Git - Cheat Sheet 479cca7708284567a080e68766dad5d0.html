@@ -1,0 +1,752 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Git - Cheat Sheet</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="f489d3a9-9242-4627-9ce2-cde2d455d8ee" class="page sans"><header><h1 class="page-title">Git - Cheat Sheet</h1></header><div class="page-body"><p id="bd3426bf-0c4d-4732-9f41-cfd743eca111" class="">Basic Git Workflow on Life Cycle</p><ul id="a4d27a51-e495-44e2-a040-7557b4f8704f" class="toggle"><li><details open=""><summary>Working Directory →current dir</summary></details></li></ul><ul id="a427e4be-1f3e-4bba-8a46-e4e13d7c0aa1" class="toggle"><li><details open=""><summary>Staging Area → pre-commit holding area</summary></details></li></ul><ul id="2290db50-1474-4364-b467-89a823784dfd" class="toggle"><li><details open=""><summary>Repository →.git repo in dir</summary></details></li></ul><ul id="5696278c-be44-42ea-a884-01887b553732" class="toggle"><li><details open=""><summary>Remote</summary></details></li></ul><p id="4405edd2-f462-4b68-8993-722ee2ae961f" class="">
+</p><figure id="479cca77-0828-4567-a080-e68766dad5d0"><div class="source"><a href="Git%20-%20Cheat%20Sheet%20479cca7708284567a080e68766dad5d0/01_QuickStart.pdf">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/afe708a3-7dc5-453c-8747-b751c8993bb3/01_QuickStart.pdf</a></div></figure><p id="53bbe681-65b7-4078-8f04-9f4b977c50ad" class="">
+</p><h1 id="bac89b9b-9eae-4932-925e-93f3c0d91bb0" class="">Basic git commands</h1><p id="eeb96086-83b5-4efd-9713-82e7e195be30" class="">git init &lt;name of project&gt; </p><p id="db86e718-a37e-4a31-be71-82ae364dbc69" class="">git status → The git status command shows the state of the working directory and the staging area. It allows you to see staged changes and the files that aren’t being tracked by Git. The Status output does not display any information about the committed project history.</p><p id="f400d684-3d9d-4474-b17f-70656dd526a9" class="">git log → List commits that are reachable by following the parent links from the given commit(s), but exclude commits that are reachable from the one(s) given with a ^ in front of them. The output is given in reverse chronological order by default.<div class="indented"><ul id="0f7c3dd6-44f0-4b3e-9463-88d35ea4bbe5" class="bulleted-list"><li>abbrev-commit</li></ul><ul id="a5a880f8-7494-4a91-8348-17bd0c82dd18" class="bulleted-list"><li>&lt;to&gt;....&lt;from&gt;</li></ul><ul id="ef495c37-1aaf-4691-b1aa-8c65669f1766" class="bulleted-list"><li>—since=&quot;3 days ago&quot; - last 3 days</li></ul><ul id="eb456689-47be-4e97-a1f4-decb16ef7581" class="bulleted-list"><li>— &lt;file&gt; -log of changes to filer</li></ul></div></p><p id="8ef35d37-39e8-4741-a885-ad52266d4654" class="">git-ls-files - Show information about files in the index and the working tree</p><p id="11994e30-8123-482a-ba31-543342b773e1" class="">git push &lt;remote&gt; &lt;branch&gt;</p><hr id="26493d7c-89c7-4173-a91c-cbc66acdb62a"/><h2 id="49bb9c8a-10db-4bff-980d-c7a4833a6b13" class="">GIT ADD</h2><p id="26b1ee71-89bf-4bb9-92ca-7d297fe93922" class="">git add → add files to staging area for commit<div class="indented"><ul id="9c1a83ca-ede8-4d46-89f7-81c39ccf0dcc" class="toggle"><li><details open=""><summary>-A → Update the index not only where the working tree has a file matching &lt;pathspec&gt; but also where the index already has an entry. This adds, modifies, and removes index entries to match the working tree.</summary></details></li></ul><p id="c9a24818-ad3a-4883-837e-a2f069b4db10" class="">
+</p></div></p><h2 id="eb9b2d17-128a-495b-b0d2-c6eabb0fbebe" class="">Git renaming and removing</h2><ul id="173d60e3-8cff-4e31-a916-7f0661602fee" class="toggle"><li><details open=""><summary>git mv &lt;source&gt; &lt;target&gt;</summary><ul id="1245fea5-37a8-4381-a4bf-9360bef4dafc" class="bulleted-list"><li>To undo: just rename back to original</li></ul></details></li></ul><ul id="54f81bc7-2f8b-46ee-aa89-ca4f0ae88f8d" class="toggle"><li><details open=""><summary>git rm &lt;file&gt; (works on files tracked by git)</summary><ul id="53fa8bd6-2e94-46c4-a8d0-8faebe585093" class="toggle"><li><details open=""><summary>if we use a bash command, the change is staged in the staging area</summary></details></li></ul><p id="12e02f05-b790-4950-8f0b-19708c2daeda" class="">
+</p></details></li></ul><p id="86cc4836-6c2e-4111-bb4a-bc7df1066031" class="">
+</p><h2 id="6fd9d138-4f8c-4b97-ae2d-02dfed538254" class="">Committing</h2><p id="99dd1224-67aa-4e82-98ba-5fefa9fc0b48" class="">git commit </p><ul id="0d3ecf34-539b-4c86-b938-918523a05b0a" class="toggle"><li><details open=""><summary>Commands</summary><ul id="c27566c1-7894-4d44-9f37-c77c616d73c5" class="bulleted-list"><li>-m - write message directly in console</li></ul><ul id="ea4b690c-1cfe-446b-ad33-47a6796ba737" class="bulleted-list"><li>-am add and commit at same time</li></ul><ul id="f91e2765-55b1-4831-a5fb-c06a212d8ee3" class="bulleted-list"><li>a, --all commit all changed files
+-i, --include add specified files to index for commit
+--interactive interactively add files
+-p, --patch interactively add changes
+-o, --only commit only specified files
+-n, --no-verify bypass pre-commit and commit-msg hooks
+--dry-run show what would be committed
+--short show status concisely
+--branch show branch information
+--ahead-behind compute full ahead/behind values
+--porcelain machine-readable output
+--long show status in long format (default)
+-z, --null terminate entries with NUL
+--amend amend previous commit</li></ul></details></li></ul><h2 id="4e0375bc-3b19-4206-91c3-bde0edf70901" class="">Deleting a Commit</h2><ul id="b9cf2d72-93af-4a69-9c14-b246a51216cc" class="toggle"><li><details open=""><summary>git reset --soft HEAD~1 →Delete the most recent commit, keeping the work you&#x27;ve done:</summary></details></li></ul><ul id="146eaa31-5e9e-4415-a300-8a6d72ef22ff" class="toggle"><li><details open=""><summary>git rest —hard HEAD~1 →Delete the most recent commit, destroying the work you&#x27;ve done:</summary></details></li></ul><ul id="04e36e0d-4b0e-4ca1-851c-b9534147983e" class="toggle"><li><details open=""><summary>git checkout — &lt;file-name&gt; reverts file back to original state, removes it from commit area</summary></details></li></ul><hr id="7de06d32-8fc5-4144-bbc0-6fe2d285f7ea"/><h2 id="4bc7ef01-09bc-4d53-b543-47789f3d2384" class="">Git basics PDF (live workflow - basics)</h2><figure id="215e0bd4-2a38-46b0-b287-09f55d423a8c"><div class="source"><a href="Git%20-%20Cheat%20Sheet%20479cca7708284567a080e68766dad5d0/04_BasicWorkflow.pdf">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/401032be-0da4-4c0f-acea-0649f8882621/04_BasicWorkflow.pdf</a></div></figure><p id="e696af5c-119c-489c-a9de-d9b2133ffea2" class="">
+</p><h2 id="c762f9d2-0057-48c1-ad4e-580d2d26191b" class="">GIT - Comparisons</h2><p id="127b6578-5e47-476c-b652-198edcf7e07d" class=""><strong>WORKING DIRECTORY</strong> AND LAST COMMIT</p><ul id="c3449d26-99b2-4a58-a171-21eadc47b9dc" class="bulleted-list"><li>git diff HEAD~&lt;number optional&gt; → git will compare the differences between working directory and the last commit on this branch</li></ul><ul id="e6f38c6b-c4bf-43ae-bcfc-1ea694ecfc7d" class="bulleted-list"><li>git difftool HEAD →launches diff comparison in preferred text editor, specified in your .gitconfig files as follows:<pre id="4b02bcff-25ff-48fd-b2c1-439b26a1c0b3" class="code"><code>[diff]
+			tool = vimdiff</code></pre><p id="30c3860c-6239-40d1-a32b-b812e0145663" class="">COMPARING BETWEEN <strong>STAGING AREA</strong> AND GIT REPO<div class="indented"><ul id="8e1d4368-6117-4474-acd6-5d730dc493a9" class="bulleted-list"><li>git diff —staged HEAD</li></ul><ul id="70113635-a8bb-4dd6-9589-a8bf449c2bad" class="bulleted-list"><li>git diff —staged &lt;filename&gt;</li></ul></div></p><h3 id="f4ff3c49-230d-43cf-8fff-15516cb4d6cd" class="">Limiting to just one file</h3><ul id="9b6e676a-c704-442c-8a9d-ac28f60a080d" class="bulleted-list"><li>git diff — &lt;file&gt;</li></ul><h3 id="6b0acfa0-974e-44c8-bba7-02dbc4a3806c" class="">Comparing btwn Commits</h3><ul id="29f3b20f-a416-4e5d-9ac1-f5b69f15f436" class="bulleted-list"><li>git diff HEAD HEAD~&lt;number&gt;</li></ul><ul id="7570130a-9a81-4465-8b38-c4309e5d97b4" class="bulleted-list"><li>git diff &lt;commit1&gt; &lt;commit2&gt;</li></ul><h3 id="0266eeba-e1e4-4f2a-a543-1942f6c8f8f2" class="">Comparing between Local and Remote Master Branches</h3><ul id="44e9db32-0235-4e51-829b-055fe23f1a8b" class="bulleted-list"><li>git diff &lt;local&gt; &lt;remote&gt;</li></ul><h2 id="5c59a2cd-d5fb-4335-9e6a-31094f279a0d" class="">Branching</h2><pre id="6d4650cf-e51a-418d-b4ed-db561efae29b" class="code"><code>
+* d0d2866 (HEAD -&gt; mynewbranch, origin/main, main) updated readme
+* 6ca4abf revise
+* 9a42578 added gitignore
+* 028789f moved file from level2 to level3
+* f5b60d7 first comm3
+* 6c095fc first comm2
+* 5aa8004 first comm</code></pre><h2 id="265d84b7-e985-4b49-82ec-e014d7c1d36f" class="">Git Branch</h2><pre id="c0dbe956-f856-41b6-897b-3b4ecaa95e9e" class="code"><code>git branch &lt;name&gt;
+git checkout -b myBranch //create branch and check it out
+git branch -m mynewbranch branchName //moves the first branch into the second
+git branch -d branchname //delete branch</code></pre><h2 id="2ec299cd-12b6-4007-8da3-dade474a79df" class="">Git Merging</h2><pre id="6d3fc18a-990d-471d-b857-771cda7f4e1f" class="code"><code>//With Fast Forward
+//from alternate branch
+git checkout master
+git diff master
+git merge &lt;branchName&gt; //make sure you are on the correct branch you want 
+//to have the changes merged into</code></pre><pre id="f0c66357-a7d6-4ff5-9791-fd57b3328bac" class="code"><code>//delete remote branch
+$ git push origin --delete name
+
+//Without fast forward</code></pre><h3 id="5fd0710e-69cc-4538-919f-5d57fa4cbca0" class="">Fixing conflics</h3><pre id="39cd6539-9b28-41e2-a6d0-85db25059de0" class="code"><code>//one or files conflict with changes made in another branch
+git merge realwork
+*Auto-merging simpleSite.html
+*CONFLICT (content): Merge conflict in simpleSite.html
+*Automatic merge failed; fix conflicts and then commit the result.
+//Resolve merge conflict using text editor or use
+</code></pre><h3 id="1be6f00e-9d81-4d46-b0a0-fc232b7b4629" class="">Abort merge</h3><ul id="dd331945-06f3-4966-98ea-05b26e906f06" class="bulleted-list"><li>git merge —-abort</li></ul><p id="4a279169-f5e9-4b34-8962-1ce2668bcf67" class="">
+</p><h2 id="554e9f92-83a0-4e0b-9930-01e1dc29b72b" class="">Git rebase</h2><pre id="7c0ef536-61f3-4755-9f1b-efec23ca0dce" class="code"><code>Before Rebase
+* a38367b (HEAD -&gt; main) readme one line change
+| * 6fcaecd (myfeature) added changes to human
+|/  
+*   765c1fc (origin/main) Merge branch &#x27;realwork&#x27; into main
+|\  
+| * 771d120 made changes to html
+* | 8303b4b editing html on master
+|/  
+*   c976343 merging changes from simple-changes into master
+|\  
+| * 8e90b8e added humans.txt
+* | bf7fc50 modified readmen
+|/  
+*   7727302 Merge branch &#x27;add-copyright&#x27; into main
+|\  
+| * 5221587 added copyright test to readme
+* | 3e371fe added copyright
+|/  
+* 0b6918e new site
+* d0d2866 updated readme
+* 6ca4abf revise
+* 9a42578 added gitignore</code></pre><h3 id="0b50d36a-f28a-4d81-b16a-6cec8d7f6025" class="">After rebase</h3><pre id="2412cca6-43e9-4bb9-9cee-5f2e6d4ac269" class="code"><code>git rebase main
+* 34aeca6 (HEAD -&gt; myfeature) added changes to human
+* a38367b (main) readme one line change
+*   765c1fc (origin/main)dpowererge branch &#x27;realwork&#x27; into main
+|\  
+| * 771d120 made changes to html
+* | 8303b4b editing html on master
+|/  
+*   c976343 merging changes from simple-changes into master
+|\  
+| * 8e90b8e added humans.txt
+* | bf7fc50 modified readmen
+|/  
+*   7727302 Merge branch &#x27;add-copyright&#x27; into main
+|\  
+| * 5221587 added copyright test to readme
+* | 3e371fe added copyright
+|/  
+* 0b6918e new site
+* d0d2866 updated readme
+* 6ca4abf revise
+* 9a42578 added gitignore
+* 028789f moved file from level2 to level3</code></pre><h3 id="87f2732a-8ccf-43f5-afbb-41782734b661" class="">What happened?</h3><ul id="7cc1f049-e01e-4191-b7c9-8b8ca71ab04b" class="bulleted-list"><li>We had to rewind the change that happened in our feature branch, play back the change on master ON the feature branch, and then apply the change that happened on the myfeature branch, originally. </li></ul><pre id="924dca83-8947-400f-a155-9bd38fa0c2ba" class="code"><code>after doing another commit
+*e1ddff5 (HEAD -&gt; myfeature) rebase 1
+* 34aeca6 added changes to human
+* a38367b (main) readme one line change
+*   765c1fc (origin/main) Merge branch &#x27;realwork&#x27; into main
+|\  
+| * 771d120 made changes to html
+* | 8303b4b editing html on master
+|/  
+*   c976343 merging changes from simple-changes into master
+|\  
+| * 8e90b8e added humans.txt
+* | bf7fc50 modified readmen
+|/  
+*   7727302 Merge branch &#x27;add-copyright&#x27; into main
+|\  
+| * 5221587 added copyright test to readme
+* | 3e371fe added copyright
+|/</code></pre><h3 id="47ec9aee-c4a5-4dc1-bc41-59394d93dd4d" class="">Aborting a rebase</h3><p id="fe545972-9502-4c3f-9d2e-6307f6737133" class="">git rebase —abort</p><h3 id="d070fcbc-d84a-4f8a-8cd6-e2d762e796e7" class="">Continue rebase after resolving conflict:</h3><p id="738e06a6-0fd9-4c31-a729-805a2562b0b8" class="">git rebase —continue</p><p id="d1037012-3dbb-436d-8b34-70cf64e86160" class="">
+</p><h2 id="7e342efa-d9ac-4566-a2c7-d8ad3ac8ab74" class="">Combine commits with rebase</h2><ul id="1d98514f-d2f0-44d3-9448-484616d85d65" class="bulleted-list"><li>git rebase -i HEAD~#</li></ul><ul id="530715b8-4c72-485c-bd97-20a8c5523b19" class="bulleted-list"><li>git push --force origin HEAD to push changes after rebase</li></ul><ul id="76d76548-b84d-423e-9793-e10f5adba1d7" class="bulleted-list"><li>git push --force-with-lease origin HEAD<ul id="64a8455d-2ed4-4b61-8976-e138db4b81b1" class="bulleted-list"><li>considered a safer option that will not overwrite the work done on the remote branch in case more commits were attached to it (for instance, by another developer). Moreover, it helps you to avoid overwriting another developer&#x27;s work by force pushing.</li></ul></li></ul><h3 id="8530615f-d059-44aa-9fdb-573a7c43f74f" class="">Git Pull - With Rebase (and git fetch)</h3><ul id="159b1af0-9211-44fb-9bf0-b8981e35dc4e" class="bulleted-list"><li>git fetch - a non-destructive command that updates the references between the remote repository and the local repository. In other words, pulls down refs and checks to see if there is any divergence. </li></ul><pre id="a3885d60-d54e-472c-8c92-f67675613dc1" class="code"><code>git fetch //fetches the refs in remote
+//pulls down changes from remote while keeping your 
+//changes at the front
+git pull rebase --origin main</code></pre><h2 id="3edd11b6-30d5-4869-8b09-3295b9b4c209" class="">Git Stash</h2><pre id="b0c31125-8020-4b0f-a1b7-55385c0a79cf" class="code"><code>git stash save //save is the default comman executed - does not work with untracked files
+git stash apply //apply stash
+git stash drop //drops the last stash
+git stash list
+
+//To stash untracked:
+git stash -u
+
+//to clear stash
+git stash clear
+</code></pre><h3 id="37c327ea-f224-4929-94bc-b15fb1e71432" class="">Show a stash</h3><p id="ab2d301b-b397-4f8c-9bf9-1b17c32d401d" class="">git stash show stash@{1}</p><p id="175cb81e-aae6-4fb1-9a86-4fe8503372eb" class="">
+</p><h3 id="f16a4995-20c8-4a72-bcc7-20a7660b1161" class="">Stash and Branch</h3><p id="d56b327b-ab9b-4252-a81d-ea1254dad08c" class="">git stash branch &lt;branch-name&gt;</p><p id="3720df64-20c6-48b3-abe7-6e44df7dcfe5" class="">
+</p><figure id="e6c947ca-87c1-4bbb-aa34-ac8d0e71c67f"><div class="source"><a href="Git%20-%20Cheat%20Sheet%20479cca7708284567a080e68766dad5d0/10_Stashing.pdf">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/aac896fd-9bbc-4caf-b63b-ee69128bff8e/10_Stashing.pdf</a></div></figure><h3 id="101a2b93-b02b-434e-8848-443b04b4403f" class="">Git cheat sheet:</h3><ul id="5764d8f9-a4cf-47e3-a9c1-6bc9d83df21e" class="bulleted-list"><li><em>Git init creates a git repository in your present working directory</em></li></ul><ul id="d5a0ce56-3fe8-45d8-b907-66d148ef8f41" class="bulleted-list"><li>Git clone &lt;URL&gt; <em>fetch remote repository and data (use only once at the start)</em></li></ul><ul id="ebfe2cf7-8d61-478a-9531-5954d67b8205" class="bulleted-list"><li>Git pull &lt;remote&gt; &lt;branch&gt; <em>fetch and merge remote changes</em></li></ul><ul id="338dce10-f57f-4c88-9d6a-1c908b19c245" class="bulleted-list"><li>Git add . <em>adds all changes to be committed</em></li></ul><ul id="c54f6998-0a70-40d0-a481-d6f3d4684d34" class="bulleted-list"><li>Git commit -m “&lt;message&gt;” <em>commits your staged changes locally</em></li></ul><ul id="bf1c54dd-2e90-47c1-bdbd-fcc8533a1823" class="bulleted-list"><li>Git remote -v <em>displays remote directories</em></li></ul><ul id="743cd254-313b-4477-b83d-9f1314600e24" class="bulleted-list"><li>Git remote rm &lt;name&gt; <em> removes the remote</em></li></ul><ul id="d23a389a-52b5-4ee1-9bee-af79014bf22e" class="bulleted-list"><li>Git remote add &lt;name&gt; &lt;URL&gt; <em>adds a new remote</em></li></ul><ul id="dc27426c-3562-498a-b1a6-f88b09d84565" class="bulleted-list"><li>Git reset --hard<ul id="dbc043f6-9928-44b7-9605-ecabae8181f7" class="bulleted-list"><li>Reset current directory to HEAD</li></ul></li></ul><ul id="37a1f074-d908-4f36-9bea-fd1c846ac15a" class="bulleted-list"><li>Git push &lt;remote&gt; &lt;branch&gt; <em>push latest commit</em></li></ul><ul id="c6d04e37-eb45-4358-a1ff-f6f76daf179d" class="bulleted-list"><li>Git --set-upstream &lt;remote&gt; &lt;branch&gt; <em>sets your default branch</em><ul id="26e0c80f-a0f4-461e-be5c-01d9ce56d89d" class="bulleted-list"><li><em>Now just say “Git push” and it will know which remote and branch</em></li></ul></li></ul><ul id="01b829fb-1408-47f5-8858-484f3d961b45" class="bulleted-list"><li>Git branch <em>Tells you which branch you’re on</em><ul id="2be49607-5ff9-44e9-8451-b72784a69228" class="bulleted-list"><li>Follow with <em>r </em>to display remote branches</li></ul><ul id="8c4c1d9b-09e0-40a6-b569-0b4bae821381" class="bulleted-list"><li>Follow with <em>-merged </em>or <em>-no-merged </em>to sort by merged branches</li></ul></li></ul><ul id="a2acc57c-2234-4a89-a19e-a119b8441cc0" class="bulleted-list"><li>Git branch &lt;name&gt; <em>Create new branch off of current branch</em></li></ul><ul id="27ceca0f-dcbc-465d-a902-49b494c4e07b" class="bulleted-list"><li>Git checkout &lt;branch&gt; <em>Switch branches (will change your current project in Unity)</em><ul id="e670e53e-823f-46b6-af99-862ddae8b401" class="bulleted-list"><li>Git checkout &lt;branch&gt; -- &lt;Path/DirectoryOrFile&gt; <em>checkout only a file</em></li></ul></li></ul><ul id="bcddbae6-7d9d-4f36-a329-3da6b5607e71" class="bulleted-list"><li>Git merge &lt;branch&gt; <em>Bring changes from target branch to current branch and merge</em></li></ul><ul id="688ef08e-3f22-4212-8a38-d54a62e01e74" class="bulleted-list"><li>Git rebase &lt;branch&gt; <em>checkout and merge</em></li></ul><ul id="413a7064-5c7a-4b38-bfbe-2415fb2c3483" class="bulleted-list"><li>Git log <em>display git commit history for current branch</em><ul id="d9323036-f114-4265-8161-848b4788a881" class="bulleted-list"><li>Git log &lt;remote&gt;/&lt;branch&gt; <em>log remote changes</em></li></ul></li></ul><ul id="cab36338-2509-41ce-b9cf-e0385a432303" class="bulleted-list"><li>Git show origin/&lt;branch&gt; <em>see exact changes on remote</em></li></ul><ul id="3714fb61-c6a2-44d0-8d93-33d729b236cc" class="bulleted-list"><li>Git show REVISION:src/main.ext <em>see previous version of a file</em><ul id="98747ca7-f739-4be3-b6e7-b1dc3d613085" class="bulleted-list"><li>Example: git show HEAD~2:assets/_scripts/example.cs</li></ul><ul id="ff91a291-0805-4fa1-a692-3bb55bfe0426" class="bulleted-list"><li>This shows the exact source code for that file via the terminal</li></ul><ul id="4ee63658-3b70-4abf-9f7b-fbc7b3dd0531" class="bulleted-list"><li>Use the f and b key to navigate the file reader</li></ul></li></ul><ul id="a5a3f394-176a-4bde-abfe-e6575eed8dfe" class="bulleted-list"><li>Handle Conflicts<ul id="a4129294-c0e8-493b-b34e-ea5a3d8df05b" class="bulleted-list"><li>Git checkout --theirs / --ours (*.filename or files)</li></ul><ul id="30b93c59-5e53-4cba-b16a-1895d008b7f1" class="bulleted-list"><li>Git add . (add changes from your current directory)</li></ul><ul id="d6daba7c-6b4c-4bfd-af80-ef8f5f725715" class="bulleted-list"><li>Git merge --continue</li></ul><p id="e9d0c1d1-38fb-4f1e-990a-b3827cb84911" class="">
+</p><p id="7bdff2cf-c157-48ab-b724-984e700e6182" class="">
+</p></li></ul></li></ul></div></article></body></html>
